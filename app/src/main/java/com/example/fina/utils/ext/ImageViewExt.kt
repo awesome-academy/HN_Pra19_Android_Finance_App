@@ -2,12 +2,16 @@ package com.example.fina.utils.ext
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.fina.R
 
-fun ImageView.loadImageCircleWithUrl(url: String) {
-    Glide.with(this)
+fun ImageView.loadImageCircleWithUrl(
+    url: String,
+    placeholderResId: Int,
+) {
+    Glide.with(this.context)
         .load(url)
-        .circleCrop()
+        .apply(RequestOptions().circleCrop().placeholder(placeholderResId).error(placeholderResId))
         .into(this)
 }
 
