@@ -25,6 +25,18 @@ object ParseDataWithJson {
                     keyEntity,
                 )
 
+            ResponseEntry.STATS ->
+                parseJsonToObject(
+                    jsonDataObject?.optJSONObject(ResponseEntry.STATS),
+                    keyEntity,
+                )
+
+            ResponseEntry.CURRENCIES ->
+                parseJsonToListObject(
+                    jsonDataObject?.optJSONArray(ResponseEntry.CURRENCIES),
+                    keyEntity,
+                )
+
             else -> Any()
         }
     }
@@ -56,6 +68,8 @@ object ParseDataWithJson {
                 return when (keyEntity) {
                     ResponseEntry.COINS -> ParseJson.coinParseJson(it)
                     ResponseEntry.PRICE_HISTORY -> ParseJson.priceRecordParseJson(it)
+                    ResponseEntry.STATS -> ParseJson.coinStatsParseJson(it)
+                    ResponseEntry.CURRENCIES -> ParseJson.currencyParseJson(it)
                     else -> null
                 }
             }

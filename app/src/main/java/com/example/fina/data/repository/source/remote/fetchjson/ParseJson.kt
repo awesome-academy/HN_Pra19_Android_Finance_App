@@ -2,6 +2,7 @@ package com.example.fina.data.repository.source.remote.fetchjson
 
 import com.example.fina.data.model.Coin
 import com.example.fina.data.model.CoinStats
+import com.example.fina.data.model.Currency
 import com.example.fina.data.model.PriceRecord
 import com.example.fina.data.model.Supply
 import org.json.JSONArray
@@ -69,4 +70,14 @@ object ParseJson {
         }
         return priceRecord
     }
+
+    fun currencyParseJson(jsonObject: JSONObject) =
+        Currency().apply {
+            uuid = jsonObject.getString("uuid")
+            type = jsonObject.getString("type")
+            iconUrl = jsonObject.optString("iconUrl")
+            name = jsonObject.getString("name")
+            symbol = jsonObject.optString("symbol")
+            sign = jsonObject.optString("sign")
+        }
 }
