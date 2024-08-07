@@ -1,11 +1,14 @@
 package com.example.fina.data.repository.source.remote
 
 import com.example.fina.data.model.Coin
+import com.example.fina.data.model.CoinStats
+import com.example.fina.data.model.Currency
 import com.example.fina.data.model.PriceRecord
 import com.example.fina.data.repository.OnResultListener
 import com.example.fina.data.repository.source.CoinDataSource
 import com.example.fina.data.repository.source.remote.fetchjson.GetJsonFromUrl
 import com.example.fina.utils.Constant
+import com.example.fina.utils.CurrencyParam
 import com.example.fina.utils.ExtraParams
 import com.example.fina.utils.MarketCapInterval
 import com.example.fina.utils.OrderProperties
@@ -62,6 +65,32 @@ class CoinRemoteDataSource : CoinDataSource.Remote {
     ) {
         val url = "${Constant.BASE_URL_COIN_DETAIL}$uuid/marketCaps?interval=$interval"
         GetJsonFromUrl(url, ResponseEntry.PRICE_HISTORY, listener)
+    }
+
+    override fun getCurrencies(
+        params: CurrencyParam,
+        listener: OnResultListener<List<Currency>>,
+    ) {
+        val url = "${Constant.BASE_URL_CURRENCIES}?$params"
+        println("url currencies: $url")
+        GetJsonFromUrl(
+            url,
+            ResponseEntry.CURRENCIES,
+            listener,
+        )
+    }
+
+    override fun getCoinStats(
+        referenceCurrencyUuid: String,
+        listener: OnResultListener<CoinStats>,
+    ) {
+        val url = "${Constant.BASE_URL_COINS}?referenceCurrencyUuid=$referenceCurrencyUuid"
+
+        GetJsonFromUrl(
+            url,
+            ResponseEntry.STATS,
+            listener,
+        )
     }
 
     companion object {
