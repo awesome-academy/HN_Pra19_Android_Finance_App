@@ -1,8 +1,11 @@
 package com.example.fina.data.repository
 
 import com.example.fina.data.model.Coin
+import com.example.fina.data.model.CoinStatsAndListCoins
+import com.example.fina.data.model.Currency
 import com.example.fina.data.model.PriceRecord
 import com.example.fina.data.repository.source.CoinDataSource
+import com.example.fina.utils.CurrencyParam
 import com.example.fina.utils.ExtraParams
 import com.example.fina.utils.MarketCapInterval
 import com.example.fina.utils.OrderProperties
@@ -64,6 +67,21 @@ class CoinRepository private constructor(
         listener: OnResultListener<Unit>,
     ) {
         local.removeFavouriteCoin(uuid, listener)
+    }
+
+    override fun getCurrencies(
+        params: CurrencyParam,
+        listener: OnResultListener<List<Currency>>,
+    ) {
+        remote.getCurrencies(params, listener)
+    }
+
+    override fun getCoinStatsAndListCoins(
+        params: ExtraParams,
+        orderProperties: OrderProperties,
+        listener: OnResultListener<CoinStatsAndListCoins>,
+    ) {
+        remote.getCoinStatsAndListCoins(params, orderProperties, listener)
     }
 
     companion object {
