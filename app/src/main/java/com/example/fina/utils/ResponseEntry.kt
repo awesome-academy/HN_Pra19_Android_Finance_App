@@ -5,4 +5,5 @@ object ResponseEntry {
     const val COINS = "coins"
     const val PRICE_HISTORY = "history"
     const val STATS = "stats"
+    const val CURRENCIES = "currencies"
 }

@@ -2,6 +2,8 @@ package com.example.fina.data.repository.source.remote.fetchjson
 
 import com.example.fina.data.model.Coin
 import com.example.fina.data.model.CoinStats
+import com.example.fina.data.model.CoinStatsAndListCoins
+import com.example.fina.data.model.Currency
 import com.example.fina.data.model.PriceRecord
 import com.example.fina.data.model.Supply
 import org.json.JSONArray
@@ -68,5 +70,32 @@ object ParseJson {
             priceRecord.timestamp = it.getLong("timestamp")
         }
         return priceRecord
+    }
+
+    fun currencyParseJson(jsonObject: JSONObject) =
+        Currency().apply {
+            uuid = jsonObject.getString("uuid")
+            type = jsonObject.getString("type")
+            iconUrl = jsonObject.optString("iconUrl")
+            name = jsonObject.getString("name")
+            symbol = jsonObject.optString("symbol")
+            sign = jsonObject.optString("sign")
+        }
+
+    private fun parseCoins(jsonArray: JSONArray?): List<Coin> {
+        val coins = mutableListOf<Coin>()
+        jsonArray?.let {
+            for (i in 0 until it.length()) {
+                coins.add(coinParseJson(it.getJSONObject(i)))
+            }
+        }
+        return coins
+    }
+
+    fun coinStatsAndListCoinsParseJson(jsonObject: JSONObject): CoinStatsAndListCoins {
+        return CoinStatsAndListCoins().apply {
+            stats = coinStatsParseJson(jsonObject.getJSONObject("stats"))
+            coins = parseCoins(jsonObject.optJSONArray("coins"))
+        }
     }
 }
